@@ -16,7 +16,6 @@ export enum PersonType {
 }
 
 export class PersonParam {
-	@IsOptional()
 	@IsNumberString()
 	id: number;
 }
