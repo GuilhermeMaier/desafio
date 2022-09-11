@@ -1,5 +1,6 @@
 import {
 	IsArray,
+	IsEnum,
 	IsISO8601,
 	IsNumber,
 	IsNumberString,
@@ -8,6 +9,17 @@ import {
 	MaxLength,
 	MinLength,
 } from 'class-validator';
+
+export enum PersonType {
+	naturalPerson = 1,
+	legalPerson = 2,
+}
+
+export class PersonParam {
+	@IsOptional()
+	@IsNumberString()
+	id: number;
+}
 
 export class PersonBody {
 	@IsOptional()
@@ -23,8 +35,11 @@ export class PersonBody {
 	@MaxLength(14)
 	identification: string;
 
-	@IsNumber()
-	personType: number;
+	@IsEnum(PersonType, {
+		message:
+			'personType must be number 1 for natural person or 2 for legal person.',
+	})
+	personType: PersonType;
 
 	@IsISO8601()
 	birthDate: Date;
@@ -32,10 +47,4 @@ export class PersonBody {
 	// @IsArray()
 	// @MinLength(1)
 	// addresses: string[];
-}
-
-export class PersonParam {
-	@IsOptional()
-	@IsNumberString()
-	id: number;
 }

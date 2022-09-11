@@ -1,3 +1,4 @@
+import { PersonType } from 'src/utils/dto/person.dto';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -12,7 +13,7 @@ export class PersonModel {
 	identification: string;
 
 	@Column()
-	personType: number;
+	personType: PersonType;
 
 	@Column()
 	birthDate: Date;
