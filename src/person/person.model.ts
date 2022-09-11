@@ -5,12 +5,18 @@ export class PersonModel {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column({ length: 120 })
+	@Column()
 	name: string;
 
-	@Column('int')
-	age: number;
+	@Column()
+	identification: string;
 
-	@Column({ length: 255 })
-	email: string;
+	@Column()
+	personType: number;
+
+	@Column()
+	birthDate: Date;
+
+	// @Column()
+	// addresses: string[];
 }

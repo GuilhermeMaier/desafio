@@ -1,11 +1,12 @@
 import {
-	IsEmail,
+	IsArray,
+	IsISO8601,
 	IsNumber,
 	IsNumberString,
 	IsOptional,
 	IsString,
 	MaxLength,
-	Min,
+	MinLength,
 } from 'class-validator';
 
 export class PersonBody {
@@ -14,16 +15,23 @@ export class PersonBody {
 	id: number;
 
 	@IsString()
-	@MaxLength(120)
+	@MaxLength(150)
 	name: string;
 
-	@IsNumber()
-	@Min(1)
-	age: number;
+	@IsString()
+	@MinLength(11)
+	@MaxLength(14)
+	identification: string;
 
-	@IsEmail()
-	@MaxLength(255)
-	email: string;
+	@IsNumber()
+	personType: number;
+
+	@IsISO8601()
+	birthDate: Date;
+
+	// @IsArray()
+	// @MinLength(1)
+	// addresses: string[];
 }
 
 export class PersonParam {
