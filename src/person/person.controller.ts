@@ -3,72 +3,43 @@ import {
 	Controller,
 	Delete,
 	Get,
-	NotFoundException,
 	Param,
 	Post,
 	Put,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { PersonBody, PersonParam } from 'src/utils/dto/person.dto';
-import { Repository } from 'typeorm';
 import { PersonModel } from './person.model';
+import { PersonService } from './person.service';
 
 @Controller('/person')
 export class PersonController {
-	constructor(
-		@InjectRepository(PersonModel) private model: Repository<PersonModel>,
-	) {}
+	constructor(private readonly personService: PersonService) {}
 
 	@Get(':id')
-	public async fetchOne(@Param() params: PersonParam): Promise<PersonModel> {
-		const response = await this.model.findOne({ where: { id: params.id } });
-
-		if (!response)
-			throw new NotFoundException(
-				`No person found with the code ${params.id}.`,
-			);
-
-		return response;
+	async fetchOne(@Param() params: PersonParam): Promise<PersonModel> {
+		return this.personService.fetchOne(params);
 	}
 
 	@Get()
-	public async fetchAll(): Promise<PersonModel[]> {
-		const response = await this.model.find();
-		return response;
+	async fetchAll(): Promise<PersonModel[]> {
+		return this.personService.fetchAll();
 	}
 
 	@Post()
-	public async createPerson(@Body() body: PersonBody): Promise<PersonModel> {
-		const response = await this.model.save(body);
-		return response;
+	async createPerson(@Body() body: PersonBody): Promise<PersonModel> {
+		return this.personService.createPerson(body);
 	}
 
 	@Put(':id')
-	public async updatePerson(
+	async updatePerson(
 		@Param() params: PersonParam,
 		@Body() body: PersonBody,
 	): Promise<PersonModel> {
-		if (!(await this.model.findOne({ where: { id: params.id } })))
-			throw new NotFoundException(
-				`No person found with the code ${params.id}.`,
-			);
-
-		const whereClause = { id: params.id };
-		await this.model.update(whereClause, body);
-
-		return await this.model.findOne({ where: { id: params.id } });
+		return this.personService.updatePerson(params, body);
 	}
 
 	@Delete(':id')
-	public async deletePerson(@Param() params: PersonParam): Promise<string> {
-		if (!(await this.model.findOne({ where: { id: params.id } })))
-			throw new NotFoundException(
-				`No person found with the code ${params.id}.`,
-			);
-
-		const whereClause = { id: params.id };
-		await this.model.delete(whereClause);
-
-		return 'The person was successfully deleted';
+	async deletePerson(@Param() params: PersonParam): Promise<string> {
+		return this.personService.deletePerson(params);
 	}
 }
