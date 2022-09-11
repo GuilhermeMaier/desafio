@@ -1,6 +1,9 @@
+import { Type } from 'class-transformer';
 import {
+	ArrayMinSize,
 	IsArray,
 	IsEnum,
+	IsInstance,
 	IsISO8601,
 	IsNumber,
 	IsNumberString,
@@ -8,7 +11,9 @@ import {
 	IsString,
 	MaxLength,
 	MinLength,
+	ValidateNested,
 } from 'class-validator';
+import { AddressBody } from './address.dto';
 
 export enum PersonType {
 	naturalPerson = 1,
@@ -43,7 +48,10 @@ export class PersonBody {
 	@IsISO8601()
 	birthDate: Date;
 
-	// @IsArray()
-	// @MinLength(1)
-	// addresses: string[];
+	@ValidateNested({ each: true })
+	@Type(() => AddressBody)
+	@IsInstance(AddressBody, { each: true })
+	@ArrayMinSize(1)
+	@IsArray()
+	addresses: AddressBody[];
 }
