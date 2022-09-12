@@ -20,7 +20,7 @@ $ yarn
 
 ## Rodando a aplicação
 
-Para rodar o projeto basta rodar um yarn start:dev e fazer as devidas chamadas para fazerem os testes.
+Para rodar o projeto basta rodar um yarn start:dev e fazer as devidas chamadas para os testes.
 
 ```bash
 $ yarn start:dev
@@ -39,7 +39,7 @@ GET http://localhost:8080/person/1
 
 # Inserir uma nova pessoa
 POST http://localhost:8080/person
-#body
+# body
 {
   "name": "Guilherme",
   "identification":"03754299050",
@@ -71,7 +71,7 @@ POST http://localhost:8080/person
 
 # Atualizar uma pessoa
 PUT http://localhost:8080/person/1
-#body
+# body
 {
   "id":1,
   "name": "Guilherme Maier",
