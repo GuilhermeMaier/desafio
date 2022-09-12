@@ -2,6 +2,9 @@
 /dist
 /node_modules
 
+# compiled output
+/db.sql
+
 # Logs
 logs
 *.log
