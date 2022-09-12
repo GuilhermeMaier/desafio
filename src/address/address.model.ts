@@ -1,3 +1,4 @@
+import { AddressType } from 'src/utils/dto/address.dto';
 import { PersonType } from 'src/utils/dto/person.dto';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -26,4 +27,7 @@ export class AddressModel {
 
 	@Column()
 	uf: string;
+
+	@Column()
+	addressType: AddressType;
 }

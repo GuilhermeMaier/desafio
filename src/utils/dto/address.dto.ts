@@ -14,15 +14,23 @@ export enum AddressType {
 }
 
 export class AddressParam {
+	@IsOptional()
 	@IsNumberString()
-	id: number;
-}
+	id?: number;
 
-export class AddressBody {
+	@IsOptional()
+	@IsString()
+	@MinLength(9)
+	@MaxLength(9)
+	@IsNumberString()
+	zipCode?: string;
+
 	@IsOptional()
 	@IsNumber()
-	id: number;
+	houseNumber?: number;
+}
 
+export class NewAddressBody {
 	@IsString()
 	@MinLength(9)
 	@MaxLength(9)
@@ -39,7 +47,7 @@ export class AddressBody {
 
 	@IsOptional()
 	@IsString()
-	adjunct: string;
+	adjunct?: string;
 
 	@IsString()
 	city: string;
@@ -47,6 +55,49 @@ export class AddressBody {
 	@IsString()
 	uf: string;
 
+	@IsEnum(AddressType, {
+		message:
+			'addressType must be number 1 for residential or 2 for commercial.',
+	})
+	addressType: AddressType;
+}
+
+export class UpdateAddressBody {
+	@IsNumber()
+	id: number;
+
+	@IsOptional()
+	@IsString()
+	@MinLength(9)
+	@MaxLength(9)
+	zipCode: string;
+
+	@IsOptional()
+	@IsString()
+	street: string;
+
+	@IsOptional()
+	@IsNumber()
+	houseNumber: number;
+
+	@IsOptional()
+	@IsString()
+	neighborhood: string;
+
+	@IsOptional()
+	@IsOptional()
+	@IsString()
+	adjunct?: string;
+
+	@IsOptional()
+	@IsString()
+	city: string;
+
+	@IsOptional()
+	@IsString()
+	uf: string;
+
+	@IsOptional()
 	@IsEnum(AddressType, {
 		message:
 			'addressType must be number 1 for residential or 2 for commercial.',

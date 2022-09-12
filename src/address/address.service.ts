@@ -1,6 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AddressBody, AddressParam } from 'src/utils/dto/address.dto';
+import {
+	UpdateAddressBody,
+	AddressParam,
+	NewAddressBody,
+} from 'src/utils/dto/address.dto';
 import { Repository } from 'typeorm';
 import { AddressModel } from './address.model';
 
@@ -22,17 +26,30 @@ export class AddressService {
 		return response;
 	}
 
+	public async fetchOneByZipCodeAndHouseNumber(
+		params: AddressParam,
+	): Promise<AddressModel> {
+		const response = await this.addressRepository.findOne({
+			where: { zipCode: params.zipCode, houseNumber: params.houseNumber },
+		});
+		if (!response)
+			throw new NotFoundException(
+				`No address found with the zipCode ${params.zipCode}.`,
+			);
+		return response;
+	}
+
 	public async fetchAll(): Promise<AddressModel[]> {
 		return await this.addressRepository.find();
 	}
 
-	public async createAddress(body: AddressBody): Promise<AddressModel> {
+	public async createAddress(body: NewAddressBody): Promise<AddressModel> {
 		return await this.addressRepository.save(body);
 	}
 
 	public async updateAddress(
 		params: AddressParam,
-		body: AddressBody,
+		body: UpdateAddressBody,
 	): Promise<AddressModel> {
 		if (!(await this.addressRepository.findOne({ where: { id: params.id } })))
 			throw new NotFoundException(

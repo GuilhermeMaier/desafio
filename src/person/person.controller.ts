@@ -7,7 +7,11 @@ import {
 	Post,
 	Put,
 } from '@nestjs/common';
-import { PersonBody, PersonParam } from 'src/utils/dto/person.dto';
+import {
+	NewPersonBody,
+	UpdatePersonBody,
+	PersonParam,
+} from 'src/utils/dto/person.dto';
 import { PersonModel } from './person.model';
 import { PersonService } from './person.service';
 
@@ -26,14 +30,14 @@ export class PersonController {
 	}
 
 	@Post()
-	async createPerson(@Body() body: PersonBody): Promise<PersonModel> {
+	async createPerson(@Body() body: NewPersonBody): Promise<PersonModel> {
 		return this.personService.createPerson(body);
 	}
 
 	@Put(':id')
 	async updatePerson(
 		@Param() params: PersonParam,
-		@Body() body: PersonBody,
+		@Body() body: UpdatePersonBody,
 	): Promise<PersonModel> {
 		return this.personService.updatePerson(params, body);
 	}

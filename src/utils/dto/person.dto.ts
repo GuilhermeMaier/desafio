@@ -13,7 +13,7 @@ import {
 	MinLength,
 	ValidateNested,
 } from 'class-validator';
-import { AddressBody } from './address.dto';
+import { UpdateAddressBody, NewAddressBody } from './address.dto';
 
 export enum PersonType {
 	naturalPerson = 1,
@@ -25,11 +25,7 @@ export class PersonParam {
 	id: number;
 }
 
-export class PersonBody {
-	@IsOptional()
-	@IsNumber()
-	id: number;
-
+export class NewPersonBody {
 	@IsString()
 	@MaxLength(150)
 	name: string;
@@ -49,9 +45,44 @@ export class PersonBody {
 	birthDate: Date;
 
 	@ValidateNested({ each: true })
-	@Type(() => AddressBody)
-	@IsInstance(AddressBody, { each: true })
+	@Type(() => NewAddressBody)
+	@IsInstance(NewAddressBody, { each: true })
 	@ArrayMinSize(1)
 	@IsArray()
-	addresses: AddressBody[];
+	addresses: NewAddressBody[];
+}
+
+export class UpdatePersonBody {
+	@IsNumber()
+	id?: number;
+
+	@IsOptional()
+	@IsString()
+	@MaxLength(150)
+	name: string;
+
+	@IsOptional()
+	@IsString()
+	@MinLength(11)
+	@MaxLength(14)
+	identification: string;
+
+	@IsOptional()
+	@IsEnum(PersonType, {
+		message:
+			'personType must be number 1 for natural person or 2 for legal person.',
+	})
+	personType: PersonType;
+
+	@IsOptional()
+	@IsISO8601()
+	birthDate: Date;
+
+	@IsOptional()
+	@ValidateNested({ each: true })
+	@Type(() => UpdateAddressBody)
+	@IsInstance(UpdateAddressBody, { each: true })
+	@ArrayMinSize(1)
+	@IsArray()
+	addresses: UpdateAddressBody[];
 }

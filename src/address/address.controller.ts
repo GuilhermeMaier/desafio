@@ -7,7 +7,11 @@ import {
 	Post,
 	Put,
 } from '@nestjs/common';
-import { AddressBody, AddressParam } from 'src/utils/dto/address.dto';
+import {
+	UpdateAddressBody,
+	AddressParam,
+	NewAddressBody,
+} from 'src/utils/dto/address.dto';
 import { AddressModel } from './address.model';
 import { AddressService } from './address.service';
 
@@ -20,20 +24,27 @@ export class AddressController {
 		return this.addressService.fetchOne(params);
 	}
 
+	@Get('/byZipCode/:zipCode')
+	async fetchOneByZipCodeAndHouseNumber(
+		@Param() params: AddressParam,
+	): Promise<AddressModel> {
+		return this.addressService.fetchOneByZipCodeAndHouseNumber(params);
+	}
+
 	@Get()
 	async fetchAll(): Promise<AddressModel[]> {
 		return this.addressService.fetchAll();
 	}
 
 	@Post()
-	async createAddress(@Body() body: AddressBody): Promise<AddressModel> {
+	async createAddress(@Body() body: NewAddressBody): Promise<AddressModel> {
 		return this.addressService.createAddress(body);
 	}
 
 	@Put(':id')
 	async updateAddress(
 		@Param() params: AddressParam,
-		@Body() body: AddressBody,
+		@Body() body: UpdateAddressBody,
 	): Promise<AddressModel> {
 		return this.addressService.updateAddress(params, body);
 	}
