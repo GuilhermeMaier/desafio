@@ -1,73 +1,91 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Olá, sou Guilherme Maier, desenvolvedor responsável por completar este desafio.
 
-## Installation
+Primeiramente, devo dizer que tenho sim experiência trabalhando com api utilizando Nest.Js, porém nunca a criei do zero, sendo assim, utilizei um tutorias para dar os primeiros passos e, porteriormente, atualizei e adaptei tudo de acordo com as necessidades deste desafio.
+
+Segundamente, devo dizer que criei modelos de entidade e simulo uma conexão com um banco mysqlite sem necessidade de dados de acesso. Minha ideia inicial era terminar a base rapidamente para então focar nas migrations, que nunca utilizei, e na criação do banco de dados, porém, acadei me enrolando com a questão de precisar ter um array da entidade endereço no banco de dados, as configurações do mysqlite não permitem array ou então eu não consegui fazer com que aceitasse, por isso acabei ficando sem tempo para dar andamento nessa parte de migrations, peço desculpas por isso.
+
+Sobre o problema relacionado aos arrays, como não consegui resolver na entidade eu dei um jeito de fazer funcionar um pouco diferente do solicitado. Fiz um crud de inserção de endereços e sempre que adiciono um usuário eu salvo os endereços enviados e salvo os ids desses endereços na tabela de pessoa separados por vírgula em uma string, assim, nunca perco o tracking dos endereços. Ao atualizar uma pessoa, caso sejam enviados endereços, utilizo os ids informados e atualizo na tabela de endereços. Ao deletar uma pessoa deleto também os registros dos endereços desta pessoa, sei que o ideal seria uma cascata, mas como nunca criei um banco de dados do zero não sabia como fazer e me adaptei.
+
+Sei que esses ajustes que fiz não estão totalmente dentro do esperado para o desafio e peço desculpas por isso, porém, me adaptei o suficiente para deixar tudo funcionando conforme o esperado.
+
+## Instalação
+
+Após baixar o projeto basta rodar um comando yarn para atualizar as dependências do projeto.
 
 ```bash
-$ npm install
+$ yarn
 ```
 
-## Running the app
+## Rodando a aplicação
+
+Para rodar o projeto basta rodar um yarn start:dev e fazer as devidas chamadas para fazerem os testes.
 
 ```bash
-# development
-$ npm run start
-
 # watch mode
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
-## Test
+## Utilizando a aplicação
+
+Tomei a liberdade de deixar alguns dados prontos para facilitar a vida dos avaliadores.
 
 ```bash
-# unit tests
-$ npm run test
+# Visualizar o conjunto de pessoas
+GET http://localhost:8080/person
 
-# e2e tests
-$ npm run test:e2e
+# Visualizar uma pessoa
+GET http://localhost:8080/person/1
 
-# test coverage
-$ npm run test:cov
+# Inserir uma nova pessoa
+POST http://localhost:8080/person
+#body
+{
+  "name": "Guilherme",
+  "identification":"03754299050",
+  "personType":2,
+  "birthDate":"1996-06-24",
+  "addresses":[
+    {
+      "zipCode":"95043-070",
+      "street":"Antonio Bosi",
+      "houseNumber":570,
+      "neighborhood":"Fátima",
+      "adjunct":"Fundos",
+      "city":"Caxias do Sul",
+      "uf":"RS",
+      "addressType":1
+    },
+    {
+      "zipCode":"95043-070",
+      "street":"Antonio Bosi",
+      "houseNumber":570,
+      "neighborhood":"Fátima",
+      "adjunct":"Fundos",
+      "city":"Caxias do Sul",
+      "uf":"RS",
+      "addressType":1
+    }
+  ]
+}
+
+# Atualizar uma pessoa
+PUT http://localhost:8080/person/1
+#body
+{
+  "id":1,
+  "name": "Guilherme Maier",
+  "personType":2,
+  "addresses":[
+    {
+      "id":2,
+      "houseNumber":1002,
+      "adjunct":"Próximo ao super mercado"
+    }
+  ]
+}
+
+# Deletar uma pessoa
+DELETE http://localhost:8080/person/1
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
