@@ -23,8 +23,7 @@ $ yarn
 Para rodar o projeto basta rodar um yarn start:dev e fazer as devidas chamadas para fazerem os testes.
 
 ```bash
-# watch mode
-$ npm run start:dev
+$ yarn start:dev
 ```
 
 ## Utilizando a aplicação
